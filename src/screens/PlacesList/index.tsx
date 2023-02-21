@@ -52,7 +52,7 @@ const PlaceList: React.FC<PlaceListProps> = ({ places : any }) => {
     <View style={{flex: 1, padding: 5, backgroundColor: '#e0ebeb'}}>
       {places.results.map((item: any, index: number) => {
         return (
-          <View key={index} style={{backgroundColor: 'white', padding: 10, margin: 10}}>
+          <View key={index} style={{backgroundColor: 'white', padding:10,borderWidth: 1.5, borderColor: '#cccccc'}}>
             
             <View style={{ flexDirection: 'row'}}> 
                 <View style={{width: 60, height: 60, alignItems: 'center', justifyContent: 'center',padding: 10,borderWidth:1, borderRadius: 40, marginRight: 10}}> 
