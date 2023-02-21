@@ -1,14 +1,26 @@
-import React, {useState, useEffect} from 'react';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
-import {View, StyleSheet, Text} from 'react-native';
-import { API_KEY } from '../Utils';
+import React, { useState, useEffect } from 'react';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import { View, StyleSheet, Text } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
+import { API_KEY } from '../Utils';
 
-const MapScreen = ({navigation}) => {
-  const [lat, setLat] = useState(null);
-  const [long, setLong] = useState(null);
-  const [isLoading, setIsLoading] = useState<boolean>();
-  const [places, setPlaces] = useState([]);
+interface MarkerObj {
+  id: string;
+  name: string;
+  photos: string[];
+  rating: number;
+  vicinity: string;
+  marker: {
+    latitude: number;
+    longitude: number;
+  };
+}
+
+const MapScreen: React.FC = ({ navigation }) => {
+  const [lat, setLat] = useState<number | null>(null);
+  const [long, setLong] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [places, setPlaces] = useState<MarkerObj[]>([]);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(i => {
@@ -20,14 +32,14 @@ const MapScreen = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    console.log('Placae UEF called');
-    // getPlaces();
+    console.log('Place UEF called');
+    getPlaces();
   }, [lat, long]);
 
   /**
    * Get the Place URL
    */
-  const getPlacesUrl = (lat, long, radius, type, apiKey) => {
+  const getPlacesUrl = (lat: number, long: number, radius: number, type: string, apiKey: string) => {
     const baseUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?`;
     const location = `location=${lat},${long}&radius=${radius}`;
     const typeData = `&types=${type}`;
@@ -36,15 +48,15 @@ const MapScreen = ({navigation}) => {
   };
 
   const getPlaces = () => {
-    const url = getPlacesUrl(lat, long, 1500, 'restaurant', API_KEY);
+    const url = getPlacesUrl(lat!, long!, 1500, 'restaurant', API_KEY);
     console.log('URL', url);
     setIsLoading(true);
     fetch(url)
       .then(res => res.json())
       .then(res => console.log('res----', res.JSON()))
       .then(res => {
-        const markers = res.results.map((element, index) => {
-          const marketObj = {
+        const markers = res.results.map((element: any, index: number) => {
+          const marketObj: MarkerObj = {
             id: element.id,
             name: element.name,
             photos: element.photos,

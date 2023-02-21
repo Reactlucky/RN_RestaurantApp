@@ -18,18 +18,21 @@ const starImageFilled =
 const starImageCorner =
   'https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_corner.png';
 
-const PlaceList = props => {
-  // const { places } = props;
-  const [defaultRating, setDefaultRating] = useState(1);
-  const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
+interface PlaceListProps {
+  places: { results: any[] };
+}
 
-  const CustomRatingBar = value => {
+const PlaceList: React.FC<PlaceListProps> = ({ places : any }) => {
+  const [defaultRating, setDefaultRating] = useState<number>(1);
+  const [maxRating, setMaxRating] = useState<number[]>([1, 2, 3, 4, 5]);
+
+  const CustomRatingBar: React.FC<{value: number}> = ({ value }) => {
     return (
       <View style={styles.customRatingBarStyle}>
         
         {maxRating.map((item, key) => {
           return (
-            <View>
+            <View key={key}>
               <Image
                 style={styles.starImageStyle}
                 source={
@@ -47,21 +50,19 @@ const PlaceList = props => {
 
   return (
     <View style={{flex: 1, padding: 5, backgroundColor: '#e0ebeb'}}>
-      {places.results.map(item => {
+      {places.results.map((item: any, index: number) => {
         return (
-          <View style={{backgroundColor: 'white', padding: 10, margin: 10}}>
+          <View key={index} style={{backgroundColor: 'white', padding: 10, margin: 10}}>
             
             <View style={{ flexDirection: 'row'}}> 
                 <View style={{width: 60, height: 60, alignItems: 'center', justifyContent: 'center',padding: 10,borderWidth:1, borderRadius: 40, marginRight: 10}}> 
-                    <Image source={{uri
-                    :item.icon
-                    }}
+                    <Image source={{uri: item.icon}}
                     style={{width:40, height:40,resizeMode:'contain'}}/>
                 </View>
                 <View>
                     <Text style= {{ color: 'black', fontWeight: 'bold', fontSize: 16}}>{item.name}</Text>
                     <Text style={{fontSize: 12, marginTop: 6}}>Rating</Text>
-                    {CustomRatingBar(item.rating)}
+                    <CustomRatingBar value={item.rating} />
                 </View>
             </View>
             <Text>Address : {item.vicinity}</Text>
@@ -72,7 +73,6 @@ const PlaceList = props => {
     </View>
   );
 };
-
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
