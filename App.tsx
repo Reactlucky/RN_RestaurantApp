@@ -16,14 +16,9 @@ export default function App() {
             title: 'Nearby Restaurants',
             headerTitleAlign: 'center',
             tabBarLabel: 'NearBy',
-            // tabBarIcon: () => (
-            //   <Icon
-            //     name="location-outline"
-            //     type="ionicons"
-            //     color="blue"
-            //     size={25}
-            //   />
-            // ),
+            tabBarIcon: () => (
+              <Icon name="location" type="evilicon" color="#517fa4" />
+            ),
           }}
           name="NearByScreen"
           component={NearByScreen}
@@ -34,6 +29,9 @@ export default function App() {
             title: 'Nearby Restaurants',
             headerTitleAlign: 'center',
             tabBarLabel: 'WishList',
+            tabBarIcon: () => (
+              <Icon name="heart" type="evilicon" color="#517fa4" />
+            ),
           }}
           name="WishListScreen"
           component={WishListScreen}
